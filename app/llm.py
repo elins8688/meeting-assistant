@@ -1,4 +1,5 @@
 import requests
+import config
 
 def build_prompt(transcript):
     return f"""
@@ -20,9 +21,9 @@ Respond ONLY with valid JSON in this format:
 def call_ollama(prompt):
     try:
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            config.OLLAMA_URL,
             json={
-                "model":"llama3",
+                "model":config.MODEL,
                 "prompt":prompt,
                 "stream": False,
                 "format": "json"
