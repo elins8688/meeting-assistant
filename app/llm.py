@@ -1,5 +1,6 @@
 import requests
 import config
+import json
 
 def build_prompt(transcript):
     return f"""
@@ -34,7 +35,7 @@ def call_ollama(prompt):
         if "response" not in data:
             raise ValueError(f"Unexpected response: {data}")
         
-        return response.json()["response"]
+        return json.loads(data["response"])
     
     except Exception as e:
         return {
