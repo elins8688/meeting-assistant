@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from llm import build_prompt,call_ollama
+from app.llm import build_prompt,call_ollama
 from fastapi import HTTPException
 
 app = FastAPI()
@@ -30,5 +30,8 @@ def analyze_transcript(request: TranscriptRequest):
         return {
             "result":result
         }
+    except HTTPException:
+        raise
+
     except Exception as e:
-        raise HTTPException(staus_code=500,detail= str(e))
+        raise HTTPException(status_code=500,detail= str(e))
