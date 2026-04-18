@@ -1,5 +1,5 @@
 import requests
-import config
+import app.config as config
 import json
 
 def build_prompt(transcript):
