@@ -3,6 +3,7 @@ import app.config as config
 import json
 
 def build_prompt(transcript):
+    # Builds the message to send to Ollama
     return f"""
 You are an AI meeting assistant. Analyze the transcript and extract
 1. A consice summary (maximum of 5 sentences)
@@ -20,6 +21,7 @@ Respond ONLY with valid JSON in this format:
 }}
 """
 def call_ollama(prompt):
+    # Send transcript to Ollama and return structured analysis
     try:
         response = requests.post(
             config.OLLAMA_URL,

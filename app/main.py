@@ -1,3 +1,5 @@
+# Creates the FastAPI app and defines the endpoints
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from app.llm import build_prompt,call_ollama
@@ -15,6 +17,7 @@ def root():
 @app.post("/analyze_transcript")
 def analyze_transcript(request: TranscriptRequest):
     try:
+        # Empty transcript returns 422"
         if not request.transcript.strip():
             raise HTTPException(status_code=422,detail="Transcript is empty")
         
@@ -22,6 +25,8 @@ def analyze_transcript(request: TranscriptRequest):
         
         result = call_ollama(prompt)
         
+        # The LLM should always return these three keys based on the prompt
+        # If any key is missing, treat as server error
         required_keys = {"summary","keywords","action_items"}
         missing_keys = required_keys - result.keys()
         if missing_keys:
@@ -31,6 +36,7 @@ def analyze_transcript(request: TranscriptRequest):
             "result":result
         }
     except HTTPException:
+        # Re-raise HTTPException before the generic exception handler catches it
         raise
 
     except Exception as e:
