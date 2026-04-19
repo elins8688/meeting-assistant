@@ -71,7 +71,7 @@ Example response:
 ```
 ## Run tests
 ```bash
-pytest tests/
+pytest tests/ -v
 ```
 ## Running with Docker
 ```bash
